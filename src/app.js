@@ -19,7 +19,7 @@ const vehicleRouter = require('../vehicles/vehicle-router.js');
 
 
 // allow cross origin access for dev server and hosted app
-let whiteList = ["https://www.rvnav.com", "http://localhost:3000"]
+let whiteList = ["https://www.rvnav.com", "http://localhost:3000", "https://rvnavstaging1.netlify.com/"]
 let corsOptions = {
   origin: function (origin, callback) {
     if (whiteList.indexOf(origin) !== -1) {
@@ -28,6 +28,18 @@ let corsOptions = {
       callback(new Error("Not allowed by CORS"))
   }
 }}
+
+// app.use((req , res , next) => {
+//   res.header("Access-Control-Allow-Origin", "https://(website from Netlify goes here");
+// //   res.header("Access-Control-Allow-Credentials", true);
+// // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+// res.header("Access-Control-Allow-Headers", 'Content-Types, Authorization, Application/JSON');
+// if(req.method === 'OPTIONS'){
+//   res.header('Access-Control-Allow-Methods', 'PUT, POST,PATCH,DELETE, GET');
+//   return res.status(200).json({});
+// }
+// next();
+// });
 
 // This request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
