@@ -19,15 +19,16 @@ const vehicleRouter = require('../vehicles/vehicle-router.js');
 
 
 // allow cross origin access for dev server and hosted app
-let whiteList = ["https://www.rvnav.com", "http://localhost:3000", "https://rvnavstaging1.netlify.com"]
+let whiteList = ["https://www.rvnav.com", "http://localhost:3000", "https://rvnavstaging1.netlify.com", "https://rvnavstaging2.netlify.com"]
 let corsOptions = {
   origin: function (origin, callback) {
     if (whiteList.indexOf(origin) !== -1) {
-    callback(null, true)
+      callback(null, true)
     } else {
       callback(new Error("Not allowed by CORS"))
+    }
   }
-}}
+}
 
 // app.use((req , res , next) => {
 //   res.header("Access-Control-Allow-Origin", "https://(website from Netlify goes here");
