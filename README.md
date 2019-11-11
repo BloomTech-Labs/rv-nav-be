@@ -39,17 +39,14 @@ To get the server running locally:
 
 ---
 
-Method: **POST** `/users/register`
+Method: ** POST ** `/users/register`
 
 ### Example Registration Post Object
 
 ```
 {
-  username: "sammyw", // STRING (REQUIRED)
-  first_name: "samwise", // STRING (REQUIRED)
-  last_name: "gamgi", // STRING (REQUIRED)
+  email: "test@email.com" // STRING
   password: "password123", // STRING (REQUIRED)
-  email: "sample@email.com" // STRING
 }
 ```
 
@@ -57,14 +54,11 @@ Method: **POST** `/users/register`
 
 ```
 {
-    "id": 1,
-    "username": "sammyw",
-    "first_name": "samwise",
-    "last_name": "gamgi",
-    "password": "$2a$10$6E9J96q2S0dou8MSAwa56uQNfUfVgYehZRWq03keQNjZaKJ12h3mS",
-    "email": "sample@email.com",
-    "created_at": "2019-08-23 06:12:29",
-    "updated_at": "2019-08-23 06:12:29"
+  "id": 11,
+  "email": "test@email.com",
+  "password": "$2a$10$o0Pnu3b8BTQMWHucDP3tAu6//QcXSzyxz91nIynwKWLMqX1bso7Tq",
+  "created_at": "2019-11-10 23:50:51",
+  "updated_at": "2019-11-10 23:50:51"
 }
 ```
 
@@ -72,14 +66,14 @@ Method: **POST** `/users/register`
 
 ---
 
-Method: **POST** `/users/login`
+Method: ** POST ** `/users/login`
 
 ### Example Registration Post Object
 
 ```
 {
-	"username": "sammyw",
-	"password": "password123"
+	"username": "test@email.com",
+	"password": "password"
 }
 ```
 
@@ -87,18 +81,15 @@ Method: **POST** `/users/login`
 
 ```
 {
-    "message": "Welcome sammyw!",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6InNhbW15dyIsImZpcnN0X25hbWUiOiJzYW13aXNlIiwiaWF0IjoxNTY2NTQwNzgwLCJleHAiOjE1NjY1NDQzODB9.GgcH5xG8aY_fa67H_BsqFmVh4FgPqLCKKDWm5V9bgBo",
-    "user": {
-        "id": 1,
-        "username": "sammyw",
-        "first_name": "samwise",
-        "last_name": "gamgi",
-        "password": "$2a$10$6E9J96q2S0dou8MSAwa56uQNfUfVgYehZRWq03keQNjZaKJ12h3mS",
-        "email": "sample@email.com",
-        "created_at": "2019-08-23 06:12:29",
-        "updated_at": "2019-08-23 06:12:29"
-    }
+  "message": "Welcome test3@email.com!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijo2LCJpYXQiOjE1NzM0MjYwODYsImV4cCI6MTU3NDAzMDg4Nn0.TUjWxE6mgO3OF2BJe-IP3dXygKTz6WsFWfDPBrqlKRo",
+  "user": {
+    "id": 6,
+    "email": "test@email.com",
+    "password": "$2a$10$CI/hT2fflCygLGls/QE/y./ng1B9d0PARB.OZJyJMBWQ8euFJtiC6",
+    "created_at": "2019-11-10 22:46:50",
+    "updated_at": "2019-11-10 22:46:50"
+  }
 }
 ```
 
