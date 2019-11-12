@@ -46,7 +46,7 @@ let corsOptions = {
 app.use(Sentry.Handlers.requestHandler());
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.json());
 
 
