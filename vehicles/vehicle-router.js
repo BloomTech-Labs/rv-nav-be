@@ -3,7 +3,7 @@ const Vehicle = require('./vehicle-model');
 const protectedRoute = require('../auth/gen-token.js').protectedRoute;
 
 // ADD A vehicle
-router.post('/', protectedRoute, (req, res) => {
+router.post('/', (req, res) => {
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
   if (!subject) {
@@ -18,7 +18,7 @@ router.post('/', protectedRoute, (req, res) => {
 });
 
 // GET VEHICLE
-router.get('/', protectedRoute, (req, res) => {
+router.get('/', (req, res) => {
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
   Vehicle.findUsersVehicles(subject).then(vehicles => {
@@ -27,42 +27,42 @@ router.get('/', protectedRoute, (req, res) => {
 });
 
 // GET SINGLE vehicle
-router.get('/:id', protectedRoute, (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
   Vehicle.findById(id)
-  .then(vehicle => {
-    if (subject == vehicle.user_id) {
-      res.json(vehicle);
-    } else {
-      res.status(404).json({ message: 'No vehicle by that id' });
-    }
-  })
-  .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
+    .then(vehicle => {
+      if (subject == vehicle.user_id) {
+        res.json(vehicle);
+      } else {
+        res.status(404).json({ message: 'No vehicle by that id' });
+      }
+    })
+    .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
 });
 
 // Update vehicle
-router.put('/:id', protectedRoute, (req, res) => {
+router.put('/:id', (req, res) => {
   const changedVehicle = req.body;
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
   Vehicle.findById(id)
-  .then(vehicle => {
-    if (subject == vehicle.user_id) {
-      Vehicle.updateVehicle(id, changedVehicle).then(count =>
-        res.json(count)
+    .then(vehicle => {
+      if (subject == vehicle.user_id) {
+        Vehicle.updateVehicle(id, changedVehicle).then(count =>
+          res.json(count)
         );
       } else {
         res.status(404).json({ message: 'No vehicle by that id' });
       }
     })
     .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
-  });
-  
+});
+
 // Delete vehicle
-router.delete('/:id', protectedRoute, (req, res) => {
+router.delete('/:id', (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
