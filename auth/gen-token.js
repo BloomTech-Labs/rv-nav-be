@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  generateToken: function (user) {
+  generateToken: function(user) {
     const jwtPayload = {
       subject: user.id,
-      email: user.email
+      username: user.username,
+      first_name: user.first_name
     };
     const jwtSecret = require('./secret.js').jwtSecret;
     const jwtOptions = {
@@ -13,7 +14,7 @@ module.exports = {
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
   },
 
-  protectedRoute: function (req, res, next) {
+  protectedRoute: function(req, res, next) {
     const token = req.headers.authorization;
 
     if (token) {
