@@ -2,11 +2,12 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const admin = require("firebase-admin");
 
 require("dotenv").config();
 
 const middlewares = require("./middlewares");
-
+const serviceAccount = require("../src/config/rv-way-firebase.json");
 const app = express();
 //sentry.io
 const Sentry = require("@sentry/node");
@@ -33,6 +34,23 @@ let corsOptions = {
     }
   }
 };
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://rv-way.firebaseio.com"
+});
+
+const uid = "user-id";
+
+admin
+  .auth()
+  .createCustomToken(uid)
+  .then(customtoken => {
+    console.log("CUSTOM", customtoken);
+  })
+  .catch(error => {
+    console.log("error creating token", error);
+  });
 
 // app.use((req , res , next) => {
 //   res.header("Access-Control-Allow-Origin", "https://(website from Netlify goes here");
@@ -96,5 +114,24 @@ app.use(function onError(err, req, res, next) {
 // CUSTOM 404 & ERROR HANDLER
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
+
+// Firebase AUTH check
+function fireBaseAuth(req, res, next) {
+  if (req.headers.authtoken) {
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authtoken)
+      .then(() => {
+        next();
+      })
+      .catch(() => {
+        res.status(403).send("nope");
+      });
+  } else {
+    res.status(403).send("nope again");
+  }
+}
+
+app.use("/", fireBaseAuth);
 
 module.exports = app;
