@@ -1,15 +1,14 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   generateToken: function(user) {
     const jwtPayload = {
       subject: user.id,
-      username: user.username,
-      first_name: user.first_name
+      email: user.email
     };
-    const jwtSecret = require('./secret.js').jwtSecret;
+    const jwtSecret = require("./secret.js").jwtSecret;
     const jwtOptions = {
-      expiresIn: '7d'
+      expiresIn: "7d"
     };
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
   },
@@ -20,10 +19,10 @@ module.exports = {
     if (token) {
       jwt.verify(
         token,
-        require('./secret.js').jwtSecret,
+        require("./secret.js").jwtSecret,
         (err, decodedToken) => {
           if (err) {
-            res.status(401).json({ message: 'invalid token' });
+            res.status(401).json({ message: "invalid token" });
           } else {
             req.decodedToken = decodedToken;
             next();
@@ -31,7 +30,7 @@ module.exports = {
         }
       );
     } else {
-      res.status(401).json({ message: 'no token provided' });
+      res.status(401).json({ message: "no token provided" });
     }
   }
 };
