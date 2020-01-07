@@ -42,4 +42,21 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await Users.removeUser(id);
+
+    if(deleted){
+      res.json({ removed : id});
+    }else{
+      res.status(404).json({message: 'Could not find user with given id'});
+    }
+  }catch (err){
+    res.status.json({message :'Failed to delete user'})
+  }
+ 
+});
+
 module.exports = router;
