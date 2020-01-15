@@ -24,6 +24,13 @@ function findById(id) {
 function findBy(filter) {
   return db("users").where(filter);
 }
+function findByUser(user) {
+  return db("users").where(function() {
+    this.where('email', user.email)
+    .orWhere('googleEmail', user.googleEmail)
+    .orWhere('facebookEmail', user.facebookEmail);
+  });
+}
 
 function findUsers() {
   return db("users");
@@ -34,24 +41,25 @@ function removeUser(id) {
     .where({ id })
     .del();
 }
-function login(email, password) {
-  const router = require("express").Router();
-  const bcrypt = require("bcryptjs");
-  const Users = require("./users-model");
-  const generateToken = require("../auth/gen-token.js").generateToken;
-
-  //add a user
-  router.post("/register", (req, res) => {
-    let user = req.body;
-    const hash = bcrypt.hashSync(user.password, 10); // 2 ^ n
-    user.password = hash;
-
-    Users.add(user)
-      .then(user => {
-        res.status(201).json(user);
-      })
-      .catch(error => {
-        res.status(500).json(error);
-      });
+function login(user) {
+  Users.findByUser({ user })
+  .first()
+  .then(foundUser => {
+    if (foundUser && 
+          (bcrypt.compareSync(password, user.password) ||
+          bcrypt.compareSync(foundUser.password, user.googleId) ||
+          bcrypt.compareSync(foundUser.password, user.password)
+        ))
+    {
+      const token = generateToken(user);
+      //Return login success
+      return 200;
+    } else {
+      //Return invalid credentials
+      return 401;
+    }
+  })
+  .catch(error => {
+    return 500, error;
   });
 }
