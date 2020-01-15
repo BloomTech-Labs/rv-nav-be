@@ -4,22 +4,13 @@ exports.up = function(knex) {
     tbl.string("lastName");
     tbl.string("userName");
     tbl.integer("age");
-    tbl.string("googleId");
+    tbl.string("googleId").unique();
     tbl.string("googleEmail");
-    tbl.string("facebookId");
+    tbl.string("facebookId").unique();
     tbl.string("facebookEmail");
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.table("users", tbl => {
-    tbl.dropColumn("age");
-    tbl.dropColumn("userName");
-    tbl.dropColumn("lastName");
-    tbl.dropColumn("firstName");
-    tbl.dropColumn("googleId");
-    tbl.dropColumn("googleEmail");
-    tbl.dropColumn("facebookId");
-    tbl.dropColumn("facebookEmail");
-  });
+  return knex.schema.dropTableIfExists("users");
 };
