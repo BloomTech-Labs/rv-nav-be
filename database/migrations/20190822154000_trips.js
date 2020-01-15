@@ -21,8 +21,8 @@ exports.up = function(knex) {
     tbl.float("lon_start", 4);
     tbl.float("lat_end", 4);
     tbl.float("lon_end", 4);
-    tbl.timestamptz("created_at", 6);
-    tbl.timestamptz("updated_at", 6);
+    tbl.timestamps(true, true);
+    
   });
 };
 
