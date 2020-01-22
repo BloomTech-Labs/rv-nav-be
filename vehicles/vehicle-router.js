@@ -5,10 +5,6 @@ const protectedRoute = require("../auth/gen-token.js").protectedRoute;
 // ADD A vehicle
 router.post("/", (req, res) => {
   console.log("body here here here", req.body);
-  // users id lives on the subject key from the token they provide
-  // const { subject } = req.decodedToken;
-  // console.log("token", req.decodedToken);
-  // console.log("subject", subject);
   Vehicle.add({ ...req.body })
     .then(vehicle => {
       res.status(201).json(vehicle);
@@ -17,13 +13,6 @@ router.post("/", (req, res) => {
       console.log("Error", err);
       res.status(404).json({ err });
     });
-  // if (false) {
-  //   res.status(400).json({
-  //     message: "must provide a valid user id"
-  //   });
-  // } else {
-  //   console.log("Made it!");
-  // }
 });
 
 // GET VEHICLE
