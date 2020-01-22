@@ -1,42 +1,38 @@
-const db = require('../database/dbconfig.js');
+const db = require("../database/dbconfig.js");
 
 module.exports = {
   add,
   deleteVehicle,
-  findById,
+  // findById,
   findBy,
   findUsersVehicles,
   updateVehicle
 };
 
 async function add(vehicle) {
-  const [id] = await db('vehicle').insert(vehicle, 'id');
+  console.log("Made it!");
 
-  return findById(id);
-}
-
-function findById(id) {
-  return db('vehicle')
-    .where({ id })
-    .first();
+  const response = await db("vehicle").insert(vehicle, "id");
+  console.log(response);
+  return response;
 }
 
 function findBy(filter) {
-  return db('vehicle').where(filter);
+  return db("vehicle").where(filter);
 }
 
 function findUsersVehicles(user_id) {
-  return db('vehicle').where({ user_id });
+  return db("vehicle").where({ user_id });
 }
 
 function updateVehicle(id, changedVehicle) {
-  return db('vehicle')
+  return db("vehicle")
     .where({ id })
     .update(changedVehicle);
 }
 
 function deleteVehicle(id) {
-  return db('vehicle')
+  return db("vehicle")
     .where({ id })
     .del();
 }
