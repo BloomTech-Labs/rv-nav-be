@@ -3,7 +3,7 @@ const db = require("../database/dbconfig.js");
 module.exports = {
   add,
   deleteVehicle,
-  findById,
+  // findById,
   findBy,
   findUsersVehicles,
   updateVehicle,
@@ -22,9 +22,11 @@ module.exports = {
 };
 
 async function add(vehicle) {
-  const [id] = await db("vehicle").insert(vehicle, "id");
+  console.log("Made it!");
 
-  return findById(id);
+  const response = await db("vehicle").insert(vehicle, "id");
+  console.log(response);
+  return response;
 }
 
 function addVehicleName(id, name) {

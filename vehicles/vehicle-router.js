@@ -1,24 +1,33 @@
-const router = require('express').Router();
-const Vehicle = require('./vehicle-model');
-const protectedRoute = require('../auth/gen-token.js').protectedRoute;
+const router = require("express").Router();
+const Vehicle = require("./vehicle-model");
+const protectedRoute = require("../auth/gen-token.js").protectedRoute;
 
 // ADD A vehicle
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
+  console.log("body here here here", req.body);
   // users id lives on the subject key from the token they provide
-  const { subject } = req.decodedToken;
-  if (!subject) {
-    res.status(400).json({
-      message: 'must provide a valid user id'
-    });
-  } else {
-    Vehicle.add({ ...req.body, user_id: subject }).then(vehicle => {
+  // const { subject } = req.decodedToken;
+  // console.log("token", req.decodedToken);
+  // console.log("subject", subject);
+  Vehicle.add({ ...req.body })
+    .then(vehicle => {
       res.status(201).json(vehicle);
+    })
+    .catch(err => {
+      console.log("Error", err);
+      res.status(404).json({ err });
     });
-  }
+  // if (false) {
+  //   res.status(400).json({
+  //     message: "must provide a valid user id"
+  //   });
+  // } else {
+  //   console.log("Made it!");
+  // }
 });
 
 // GET VEHICLE
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
   Vehicle.findUsersVehicles(subject).then(vehicles => {
@@ -27,7 +36,7 @@ router.get('/', (req, res) => {
 });
 
 // GET SINGLE vehicle
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
@@ -36,14 +45,14 @@ router.get('/:id', (req, res) => {
       if (subject == vehicle.user_id) {
         res.json(vehicle);
       } else {
-        res.status(404).json({ message: 'No vehicle by that id' });
+        res.status(404).json({ message: "No vehicle by that id" });
       }
     })
-    .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
+    .catch(err => res.status(404).json({ message: "No vehicle by that id" }));
 });
 
 // Update vehicle
-router.put('/:id', (req, res) => {
+router.put("/:id", (req, res) => {
   const changedVehicle = req.body;
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
@@ -55,14 +64,14 @@ router.put('/:id', (req, res) => {
           res.json(count)
         );
       } else {
-        res.status(404).json({ message: 'No vehicle by that id' });
+        res.status(404).json({ message: "No vehicle by that id" });
       }
     })
-    .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
+    .catch(err => res.status(404).json({ message: "No vehicle by that id" }));
 });
 
 // Delete vehicle
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
@@ -71,10 +80,10 @@ router.delete('/:id', (req, res) => {
       if (subject == vehicle.user_id) {
         Vehicle.deleteVehicle(id).then(count => res.json(count));
       } else {
-        res.status(404).json({ message: 'No vehicle by that id' });
+        res.status(404).json({ message: "No vehicle by that id" });
       }
     })
-    .catch(err => res.status(404).json({ message: 'No vehicle by that id' }));
+    .catch(err => res.status(404).json({ message: "No vehicle by that id" }));
 });
 
 module.exports = router;

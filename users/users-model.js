@@ -6,7 +6,8 @@ module.exports = {
   findBy,
   findUsers,
   removeUser,
-  login,
+  update,
+  // login,
   updateUserFirstName,
   updateUserLastName,
   updateUserName,
@@ -15,7 +16,6 @@ module.exports = {
 
 async function add(user) {
   const [id] = await db("users").insert(user, "id");
-
   return findById(id);
 }
 
@@ -24,6 +24,17 @@ function updateUserFirstName(id, firstname) {
     .where({ id })
     .update(firstname);
 }
+
+// function getidfromuseername(username) {
+//   return db("users")
+//     .where({ username })
+//     .update(firstname);
+
+// SELECT id
+// FROM users
+// WHERE username=username;
+// }
+
 function updateUserLastName(id, lastname) {
   return db("users")
     .where({ id })
@@ -89,3 +100,9 @@ function removeUser(id) {
 //     return 500, error;
 //   });
 // }
+
+function update(id, body) {
+  return db("users")
+    .where({ id })
+    .update(body);
+}
