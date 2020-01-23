@@ -15,7 +15,7 @@ module.exports = {
 
   protectedRoute: function(req, res, next) {
     const token = req.headers.authorization;
-
+    console.log("token 1", token)
     if (token) {
       jwt.verify(
         token,
@@ -25,6 +25,7 @@ module.exports = {
             res.status(401).json({ message: "invalid token" });
           } else {
             req.decodedToken = decodedToken;
+            console.log("token 2", token)
             next();
           }
         }
