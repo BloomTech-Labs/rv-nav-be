@@ -73,7 +73,7 @@ app.all("*", function(req, res, next) {
 // SANITY CHECK ENDPOINT
 app.get("/", (req, res) => {
   res.json({
-    message: "Hello From  RV Road Life"
+    message: "Hello From  RV Road Life with Ryan"
   });
 });
 
