@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const generateToken = require("../auth/gen-token.js").generateToken;
 const protectedRoute = require("../auth/gen-token.js").protectedRoute;
 
 require("dotenv").config();
@@ -35,8 +36,6 @@ let corsOptions = {
   }
 };
 
-
-
 // This request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 app.use(morgan("dev"));
@@ -44,11 +43,8 @@ app.use(helmet());
 // app.use(cors(corsOptions));
 app.use(express.json());
 
-
-
 // Enables cors preflight across the board
 // app.options("*", cors())
-
 
 app.options("/*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -59,7 +55,6 @@ app.options("/*", function(req, res, next) {
   );
   res.sendStatus(200);
 });
-
 
 app.all("*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -75,7 +70,7 @@ app.get("/", (req, res) => {
 
 // ROUTER ENDPOINTS
 app.use("/users", usersRouter);
-app.use("/vehicle",protectedRoute,vehicleRouter);
+app.use("/vehicle", protectedRoute, vehicleRouter);
 
 //sentry.io
 // The error handler must be before any other error middleware and after all controllers
