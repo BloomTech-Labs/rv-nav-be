@@ -3,7 +3,7 @@ const db = require("../database/dbconfig.js");
 module.exports = {
   add,
   deleteVehicle,
-  // findById,
+  findById,
   findBy,
   findUsersVehicles,
   updateVehicle
@@ -21,6 +21,10 @@ module.exports = {
 
 function findBy(filter) {
   return db("vehicle").where(filter);
+}
+
+function findById(id) {
+  return db("vehicle").where({id:id});
 }
 
 async function findUsersVehicles(user_id) {

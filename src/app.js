@@ -35,17 +35,7 @@ let corsOptions = {
   }
 };
 
-// app.use((req , res , next) => {
-//   res.header("Access-Control-Allow-Origin", "https://(website from Netlify goes here");
-// //   res.header("Access-Control-Allow-Credentials", true);
-// // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-// res.header("Access-Control-Allow-Headers", 'Content-Types, Authorization, Application/JSON');
-// if(req.method === 'OPTIONS'){
-//   res.header('Access-Control-Allow-Methods', 'PUT, POST,PATCH,DELETE, GET');
-//   return res.status(200).json({});
-// }
-// next();
-// });
+
 
 // This request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
@@ -54,8 +44,12 @@ app.use(helmet());
 // app.use(cors(corsOptions));
 app.use(express.json());
 
+
+
 // Enables cors preflight across the board
 // app.options("*", cors())
+
+
 app.options("/*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -65,6 +59,7 @@ app.options("/*", function(req, res, next) {
   );
   res.sendStatus(200);
 });
+
 
 app.all("*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

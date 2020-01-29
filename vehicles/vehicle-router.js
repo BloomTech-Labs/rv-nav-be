@@ -66,12 +66,15 @@ router.put("/:id", (req, res) => {
 
 // Delete vehicle
 router.delete("/:id", (req, res) => {
+  console.log(req.params)
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
-  Vehicle.findById(id)
+  console.log("decoded token",subject)
+  Vehicle.findById(Number(id))
     .then(vehicle => {
-      if (subject == vehicle.user_id) {
+      console.log("vehicle",vehicle)
+      if (Number(subject) === Number(vehicle[0].user_id)) {
         Vehicle.deleteVehicle(id).then(count => res.json(count));
       } else {
         res.status(404).json({ message: "No vehicle by that id" });
