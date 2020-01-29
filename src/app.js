@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const generateToken = require("../auth/gen-token.js").generateToken;
 const protectedRoute = require("../auth/gen-token.js").protectedRoute;
 
 require("dotenv").config();
@@ -80,7 +81,7 @@ app.get("/", (req, res) => {
 
 // ROUTER ENDPOINTS
 app.use("/users", usersRouter);
-app.use("/vehicle",protectedRoute,vehicleRouter);
+app.use("/vehicle", protectedRoute, vehicleRouter);
 
 //sentry.io
 // The error handler must be before any other error middleware and after all controllers

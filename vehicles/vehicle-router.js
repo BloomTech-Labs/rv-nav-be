@@ -7,6 +7,7 @@ router.post("/", (req, res) => {
   console.log("vehicle post req.body", req.body);
   Vehicle.add(req.body)
     .then(vehicle => {
+      console.log(vehicle);
       res.status(201).json(vehicle);
     })
     .catch(err => {
@@ -19,14 +20,15 @@ router.post("/", (req, res) => {
 router.get("/", (req, res) => {
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
-  Vehicle.findUsersVehicles(subject).then(vehicles => {
-    console.log("u here bro?",vehicles)
-    res.json(vehicles);
-  })
-  .catch(err => {
-    console.log("Error", err);
-    res.status(404).json({ err });
-  });
+  Vehicle.findUsersVehicles(subject)
+    .then(vehicles => {
+      console.log("u here bro?", vehicles);
+      res.json(vehicles);
+    })
+    .catch(err => {
+      console.log("Error", err);
+      res.status(404).json({ err });
+    });
 });
 
 // GET SINGLE vehicle
