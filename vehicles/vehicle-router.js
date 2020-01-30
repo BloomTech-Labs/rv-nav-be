@@ -51,9 +51,10 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
+  console.log("subject",subject);
   Vehicle.findById(id)
     .then(vehicle => {
-      if (subject == vehicle.user_id) {
+      if (subject === vehicle[0].user_id) {
         Vehicle.updateVehicle(id, changedVehicle).then(count =>
           res.json(count)
         );
