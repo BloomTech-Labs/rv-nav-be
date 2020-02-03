@@ -39,26 +39,6 @@ router.post("/login", (req, res) => {
     });
 });
 
-// Users.findBy({ email })
-//   .first()
-//   .then(user => {
-//     if (user && bcrypt.compareSync(password, user.password)) {
-//       const token = generateToken(user);
-
-//       res.status(200).json({
-//         message: `Welcome ${user.email}!`,
-//         token,
-//         user
-//       });
-//     } else {
-//       res.status(401).json({ message: 'Invalid Credentials' });
-//     }
-//   })
-//   .catch(error => {
-//     res.status(500).json(error);
-//   });
-//});
-
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -93,7 +73,6 @@ router.put("/user/:id", (req, res) => {
       if (user) {
         res.status(200).json(user);
       } else {
-        console.log("user", user);
         res.status(404).json({ message: "The user could not be foundsssss" });
       }
     })
@@ -107,23 +86,3 @@ router.put("/user/:id", (req, res) => {
 
 module.exports = router;
 
-//login a user
-// router.post('/login', (req, res) => {
-//   let { email, password } = req.body;
-//   let {status, error} = Users.login(email, password)
-//   if (status = 200) {
-//     res.status(200).json({
-//       message: `Welcome ${user.email}!`,
-//       token,
-//       user
-//     });
-//     //Add vehicle
-//     Vehicle.add(vehicle)
-//     //Add Routing Prefs
-//     //TODO: Extend BE with Route Faetures API/Endpoints
-//   } else if (status = 401) {
-//     res.status(401).json({ message: 'Invalid Credentials' });
-//   } else if (status = 500) {
-//     // res.status(500).json(error);
-//     console.error()
-//   }
