@@ -7,6 +7,7 @@ router.post("/", (req, res) => {
   console.log("vehicle post req.body", req.body);
   Vehicle.add(req.body)
     .then(vehicle => {
+      console.log(vehicle);
       res.status(201).json(vehicle);
     })
     .catch(err => {
@@ -21,9 +22,11 @@ router.get("/", (req, res) => {
   const { subject } = req.decodedToken;
   Vehicle.findUsersVehicles(subject)
     .then(vehicles => {
+      console.log("u here bro?", vehicles);
       res.json(vehicles);
     })
     .catch(err => {
+      console.log("Error", err);
       res.status(404).json({ err });
     });
 });
@@ -50,6 +53,7 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
+  console.log("subject",subject);
   Vehicle.findById(id)
     .then(vehicle => {
       if (subject === vehicle[0].user_id) {
@@ -65,11 +69,14 @@ router.put("/:id", (req, res) => {
 
 // Delete vehicle
 router.delete("/:id", (req, res) => {
+  console.log(req.params);
   const { id } = req.params;
   // users id lives on the subject key from the token they provide
   const { subject } = req.decodedToken;
+  console.log("decoded token", subject);
   Vehicle.findById(Number(id))
     .then(vehicle => {
+      console.log("vehicle", vehicle);
       if (Number(subject) === Number(vehicle[0].user_id)) {
         Vehicle.deleteVehicle(id).then(count => res.json(count));
       } else {
