@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const cors = require("cors");
+const generateToken = require("../auth/gen-token.js").generateToken;
 const protectedRoute = require("../auth/gen-token.js").protectedRoute;
 
 require("dotenv").config();
